@@ -1,0 +1,59 @@
+#new-exam { margin-bottom: 8px; }
+
+#filters {
+  padding: 10px;
+  border: 1px solid rgba(0, 0, 0, .1);
+  @include border-radius(6px);
+  margin-bottom: 10px;
+  h5 small { font-size: $basefont - 2; font-weight: bold; }
+  .input { margin-left: 0; }
+  p, input:checked+span { font-weight: bold; }
+  #courses-list {
+    > ul {
+      list-style: none;
+      list-style-position: inside;
+      margin: -8px 0 0 15px;
+      label, span { cursor: pointer; }
+      > li > ul { display: none; }
+      > li.open > ul { display: normal; }
+      > li:before {
+        content: "";
+        border-color: transparent #808080;
+        border-style: solid;
+        border-width: 0.35em 0 0.35em 0.45em;
+        display: block;
+        height: 0;
+        width: 0;
+        left: -1em;
+        top: 1em;
+        position: relative;
+      }
+      > li.open:before {
+        @include rotate(90deg);
+      }
+    }
+  }
+}
+
+.span11 h2 small { float: right; line-height: 36px; }
+
+#exams-list {
+  text-align: center;
+  .exam-item {
+    padding: 10px;
+    @include border-radius(6px);
+    border: 1px solid rgba(0, 0, 0, .1);
+    margin-bottom: 20px;
+    @include background-image(linear-gradient(#fff, #efefef));
+    table {
+      font-size: $basefont - 2;
+      tr td { border: none; }
+      tr td:nth-child(odd) { font-weight: bold; }
+    }
+  }
+}
+
+// exam form
+.courses { margin-left: 60px; }
+.new-exam-courses span { color: #404040; }
+input.mini { width: 150px; }

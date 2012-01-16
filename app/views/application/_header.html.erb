@@ -1,0 +1,25 @@
+<div class="topbar" data-dropdown="dropdown">
+  <div class="fill">
+    <div class="container">
+      <a class="brand" href="/"><span class="arrow-right"></span>HAN <small>toAssess</small></a>
+      <ul class="nav">
+        <li class="active"><a href="/">Tentamens</a></li>
+        <li><a href="/questions">Vragen</a></li>
+      </ul>
+      <ul class="nav secondary-nav">
+        <li class="dropdown">
+          <a class="dropdown-toggle"><%= current_user.name if user_signed_in? %></a>
+          <ul class="dropdown-menu">
+            <% if current_user.admin? %>
+            <li><%= link_to 'Beheer courses', categories_path %></li>
+            <li><%= link_to 'Beheer docenten', users_path %></li>
+            <% end %>
+            <li><%= link_to 'Mijn profiel', edit_user_path(current_user) %></li>
+            <li class="divider"></li>
+            <li><%= link_to 'Uitloggen', destroy_user_session_path, :method => :delete %></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

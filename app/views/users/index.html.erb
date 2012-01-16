@@ -1,0 +1,79 @@
+<%= form_for @user, :autocomplete => 'off' do |f| %>
+  <fieldset>
+    <legend>Voer een docent in</legend>
+    <div class="clearfix">
+      <%= f.label :name, 'Naam' %>
+      <div class="input">
+        <%= f.text_field :name, :autocomplete => 'off' %>
+      </div>
+    </div>
+    <div class="clearfix">
+      <%= f.label :email, 'E-mail' %>
+      <div class="input">
+        <%= f.email_field :email, :autocomplete => 'off' %>
+      </div>
+    </div>
+    <div class="clearfix">
+      <%= f.label :password, 'Wachtwoord' %>
+      <div class="input">
+        <%= f.password_field :password, :autocomplete => 'off' %>
+      </div>
+    </div>
+    <div class="clearfix">
+      <%= f.label :password_confirmation, 'Bevestig wachtwoord' %>
+      <div class="input">
+        <%= f.password_field :password_confirmation, :autocomplete => 'off' %>
+      </div>
+    </div>
+    <div class="actions">
+      <%= f.submit 'Toevoegen', :class => 'btn primary' %>
+    </div>
+  </fieldset>
+<% end %>
+
+<table id="users">
+<% for user in @users %>
+  <thead>
+    <tr>
+      <th>Naam</th><th>E-mail</th><th>Nieuw wachtwoord</th><th>Bevestig nieuw wachtwoord</th><th>Courses</th>
+    </tr>
+  </thead>
+  <%= form_for user do |f| %>
+    <tbody>
+      <tr>
+        <td><%= f.text_field :name, :class => 'span5' %></td>
+        <td><%= f.email_field :email, :class => 'span5' %></td>
+        <td><%= f.password_field :password, :autocomplete => 'off', :class => 'span4' %></td>
+        <td><%= f.password_field :password_confirmation, :autocomplete => 'off', :class => 'span4' %></td>
+        <td>
+          <div id="select-courses">
+          <ul>
+            <% for category in @categories %>
+            <li>
+              <span><%= category.name %></span>
+              <ul class="inputs-list">
+                <% for course in category.courses %>
+                <li>
+                  <label>
+                    <input type="checkbox" value="<%= course.id %>" name="user[course_ids][]" <%= 'checked' if user.courses.include? course %>>
+                    <span><%= course.name %></span>
+                  </label>
+                </li>
+                <% end %>
+              </ul>
+            </li>
+            <% end %>
+          </ul>
+        </div>
+        </td>
+      </tr>
+      <tr class="table-submit">
+        <td colspan="5">
+          <%= f.submit 'Bijwerken', :class => 'btn primary' %>&nbsp;
+          <%= link_to 'Verwijderen', user_path(user), :method => :delete, :confirm => 'Weet u het zeker?', :class => 'btn danger' %>
+        </td>
+      </tr>
+    </tbody>
+  <% end %>
+<% end %>
+</table>

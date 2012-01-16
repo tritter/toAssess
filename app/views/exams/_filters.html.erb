@@ -1,0 +1,55 @@
+<h2>Filters</h2>
+<div id="filters">
+  <form action="/exams" method="GET">
+    <div class="clearfix">
+      <h5>Zoeken <small>in titel, beschrijving en onderwerpen</small></h5>
+      <div class="input">
+        <input type="hidden" name="filters" value="1" />
+        <input type="text" name="search" id="search" />
+      </div>
+    </div>
+    <div class="clearfix">
+      <h5>Courses <small>propedeuses, semesters en minors</small></h5>
+      <div class="input" id="courses-list">
+        <ul>
+          <% for category in @categories %>
+          <li>
+            <span><%= category.name %></span>
+            <ul class="inputs-list">
+              <% for course in category.courses %>
+              <li>
+                <label>
+                  <input type="checkbox" value="<%= course.id %>" class="course_ids" name="course_ids[]" <%= 'checked' if current_user.courses.include? course %>>
+                  <span><%= course.name %></span>
+                </label>
+              </li>
+              <% end %>
+            </ul>
+          </li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+    <div class="clearfix">
+      <h5>Vragen <small>aantal van 1 tot en met 10</small></h5>
+      <div class="input">
+        <p></p>
+        <input type="range" id="number_of_questions" name="number_of_questions" min="1" max="10" value="10" />
+      </div>
+    </div>
+    <div class="clearfix">
+      <h5>Moeilijkheid <small>graad van 1 tot en met 10</small></h5>
+      <div class="input">
+        <p></p>
+        <input type="range" id="average_difficulty" name="average_difficulty" min="1" max="10" value="10" />
+      </div>
+    </div>
+    <div class="clearfix">
+      <h5>Tijdsduur <small>van 5 tot en met 180 minuten</small></h5>
+      <div class="input">
+        <p></p>
+        <input type="range" id="amount_of_time" name="amount_of_time" min="5" max="180" step="5" value="180" />
+      </div>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,45 @@
+<h2>Algemene informatie</h2>
+<%= form_for @exam do |f| %>
+<input type="hidden" name="exam[user_id]" value="<%= current_user.id %>" id="exam-user-id" />
+<div class="clearfix">
+  <label>Course</label>
+  <div class="input">
+  <ul class="inputs-list new-exam-courses">
+  <% for category in @categories %>
+    <% if category.courses.any? { |c| current_user.courses.include?(c) } %>
+    <li>
+      <span><%= category.name %></span>
+      <ul>
+        <% for course in category.courses %>
+        <% if current_user.courses.include? course %>
+        <label>
+          <input type="radio" value="<%= course.id %>" name="exam[course_id]">
+          <span><%= course.name %></span>
+        </label>
+        <% end %>
+        <% end %>
+      </ul>
+    </li>
+  <% end %>
+  <% end %>
+  </ul>
+  </div>
+</div>
+<div class="clearfix">
+<%= f.label :title, 'Titel' %>
+<div class="input"><%= f.text_field :title %></div>
+</div>
+<div class="clearfix">
+<%= f.label :description, 'Beschrijving' %>
+<div class="input"><%= f.text_area :description, :rows => '5' %></div>
+</div>
+<h2>Vragen</h2>
+<table id="questions">
+</table>
+<div class="actions">
+  <a href="#" id="add-open-question" class="btn success">Open vraag toevoegen</a>&nbsp;<a href="#" id="add-mc-question" class="btn success">Multiple-choice vraag toevoegen</a>&nbsp;<a href="#" id="add-thesis-question" class="btn success">Stellingvraag toevoegen</a>
+</div>
+<div class="actions">
+  <%= f.submit 'Tentamen toevoegen', :class => 'btn primary' %>
+</div>
+<% end %>
