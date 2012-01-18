@@ -22,7 +22,7 @@ class Exam
 
   private
   @callback = false
-  def handle_summary_fields
+  def handle_summary_fields()
     if not @callback
       self.category_name = course.category.name
       self.course_name = course.name

@@ -9,7 +9,7 @@
   	<%= javascript_include_tag 'application' %>
   	<%= csrf_meta_tags %>
   </head>
-  <body id="<%= controller_name %>" data-action="<%= action_name%>">
+  <body id="<%= controller_name %>" data-action="<%= action_name %>">
     <% unless controller_name == 'sessions' and action_name == 'new' %>
     <%= render 'header'  %>
     <div id="content" class="container">

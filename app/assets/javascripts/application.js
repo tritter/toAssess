@@ -14,4 +14,10 @@
 //= require bootstrap-popover
 //= require bootstrap-scrollspy
 //= require bootstrap-tabs
-//= require_tree .
+//= require markdown/Markdown.Converter
+//= require markdown/Markdown.Sanitizer
+//= require markdown/Markdown.Editor
+//= require prettify/prettify
+//= require app
+//= require exams
+//= require users

@@ -150,14 +150,17 @@ buildExamList = (data) ->
   if data.length is 0
     template += '<p>Geen tentamens gevonden.</p>'
   else
+    months = ['januari', 'februari', 'maart', 'april', 'mei', 'juni', 'juli', 'augustus', 'september', 'oktober', 'november', 'december']
     for item in data
+      date = item.created_at.substr(0, 10).split('-')
+      date = date[2] + ' ' + months[(date[1] - 1)] + ' ' + date[0]
       template += '<div class="exam-item">
                     <h3 class="pull-left"><a href="/exams/' + item._id + '/edit">' + item.title + '</a> <small>' + item.category_name + ' - ' + item.course_name + '</small></h3>
                     <table class="condensed-table">
                       <tr><td>Onderwerpen:</td><td colspan="3">*TODO*</td></tr>
                       <tr><td>Aantal vragen:</td><td>' + item.number_of_questions + ' vragen</td><td>Type vragen:</td><td>*TODO*</td></tr>
                       <tr><td>Tijdsduur:</td><td>' + item.amount_of_time + ' minuten</td><td>Moeilijkheid:</td><td>' + item.average_difficulty + ' uit 10</td></tr>
-                      <tr><td>Gemaakt op:</td><td>' + item.created_at.substr(0, 10) + '</td><td>Gemaakt door:</td><td>' + item.author + '</td></tr>
+                      <tr><td>Gemaakt op:</td><td>' + date + '</td><td>Gemaakt door:</td><td>' + item.author + '</td></tr>
                     </table>
                   </div>'
   $('.span11 h2 small').text(data.length + ' gevonden') if data.length > 0

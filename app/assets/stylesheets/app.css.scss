@@ -2,7 +2,7 @@
 @import "compass_twitter_bootstrap";
 
 // custom stuff
-@import "custom";
+@import "custom/custom";
 
 body, html { width: 100%; height: 100%; }
 body {
@@ -71,6 +71,9 @@ body {
   to {opacity: 0.25;}
 }
 
+textarea { width: 390px; height: 200px; }
+.preview { width: 382px; padding: 4px; border: 1px solid #ccc; @include border-radius(3px); }
+
 footer {
   text-align: center;
 }
@@ -78,3 +81,5 @@ footer {
 @import "users";
 @import "exams";
 @import "categories";
+@import "markdown/markdown";
+@import "prettify/prettify";

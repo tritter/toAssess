@@ -1,32 +1,31 @@
 /*
-Syntax error: File to import not found or unreadable: custom/custom.
-              Load paths:
-                Compass::SpriteImporter
-                /home/ryan/newRails/toAssess/public/stylesheets/sass
-                /home/ryan/newRails/toAssess/app/assets/stylesheets
-                /home/ryan/.rvm/gems/ruby-1.9.2-p290/gems/compass-0.11.5/frameworks/blueprint/stylesheets
-                /home/ryan/.rvm/gems/ruby-1.9.2-p290/gems/compass-0.11.5/frameworks/compass/stylesheets
-                /home/ryan/.rvm/gems/ruby-1.9.2-p290/gems/compass_twitter_bootstrap-0.1.8/stylesheets
-        on line 5 of /home/ryan/newRails/toAssess/app/assets/stylesheets/app.css.scss
+Syntax error: Undefined mixin 'border-radius'.
+        on line 16 of /home/ryan/newRails/toAssess/app/assets/stylesheets/markdown/markdown.css.scss, in `border-radius'
+        from line 16 of /home/ryan/newRails/toAssess/app/assets/stylesheets/markdown/markdown.css.scss
 
-1: @import "compass";
-2: @import "compass_twitter_bootstrap";
-3: 
-4: // custom stuff
-5: @import "custom/custom";
-6: 
-7: body, html { width: 100%; height: 100%; }
-8: body {
-9:   background-color: $hanLightBlue;
-10: }
+11: .wmd-prompt-background {	background-color: #000; }
+12: .wmd-prompt-dialog {
+13:   padding: 5px;
+14:   background-color: #f5f5f5;
+15:   border: 1px solid rgba(0, 0, 0, .1);
+16:   @include border-radius(6px);
+17: }
+18: // end markdown editor //
 
 Backtrace:
-/home/ryan/newRails/toAssess/app/assets/stylesheets/app.css.scss:5
-/home/ryan/.rvm/gems/ruby-1.9.2-p290/gems/sass-3.1.12/lib/sass/tree/import_node.rb:64:in `rescue in import'
-/home/ryan/.rvm/gems/ruby-1.9.2-p290/gems/sass-3.1.12/lib/sass/tree/import_node.rb:42:in `import'
-/home/ryan/.rvm/gems/ruby-1.9.2-p290/gems/sass-3.1.12/lib/sass/tree/import_node.rb:25:in `imported_file'
-/home/ryan/.rvm/gems/ruby-1.9.2-p290/gems/sass-3.1.12/lib/sass/tree/visitors/perform.rb:149:in `rescue in visit_import'
-/home/ryan/.rvm/gems/ruby-1.9.2-p290/gems/sass-3.1.12/lib/sass/tree/visitors/perform.rb:154:in `visit_import'
+/home/ryan/newRails/toAssess/app/assets/stylesheets/markdown/markdown.css.scss:16:in `border-radius'
+/home/ryan/newRails/toAssess/app/assets/stylesheets/markdown/markdown.css.scss:16
+/home/ryan/.rvm/gems/ruby-1.9.2-p290/gems/sass-3.1.12/lib/sass/tree/visitors/perform.rb:170:in `visit_mixin'
+/home/ryan/.rvm/gems/ruby-1.9.2-p290/gems/sass-3.1.12/lib/sass/tree/visitors/base.rb:37:in `visit'
+/home/ryan/.rvm/gems/ruby-1.9.2-p290/gems/sass-3.1.12/lib/sass/tree/visitors/perform.rb:18:in `visit'
+/home/ryan/.rvm/gems/ruby-1.9.2-p290/gems/sass-3.1.12/lib/sass/tree/visitors/base.rb:53:in `block in visit_children'
+/home/ryan/.rvm/gems/ruby-1.9.2-p290/gems/sass-3.1.12/lib/sass/tree/visitors/base.rb:53:in `map'
+/home/ryan/.rvm/gems/ruby-1.9.2-p290/gems/sass-3.1.12/lib/sass/tree/visitors/base.rb:53:in `visit_children'
+/home/ryan/.rvm/gems/ruby-1.9.2-p290/gems/sass-3.1.12/lib/sass/tree/visitors/perform.rb:27:in `block in visit_children'
+/home/ryan/.rvm/gems/ruby-1.9.2-p290/gems/sass-3.1.12/lib/sass/tree/visitors/perform.rb:39:in `with_environment'
+/home/ryan/.rvm/gems/ruby-1.9.2-p290/gems/sass-3.1.12/lib/sass/tree/visitors/perform.rb:26:in `visit_children'
+/home/ryan/.rvm/gems/ruby-1.9.2-p290/gems/sass-3.1.12/lib/sass/tree/visitors/base.rb:37:in `block in visit'
+/home/ryan/.rvm/gems/ruby-1.9.2-p290/gems/sass-3.1.12/lib/sass/tree/visitors/perform.rb:236:in `visit_rule'
 /home/ryan/.rvm/gems/ruby-1.9.2-p290/gems/sass-3.1.12/lib/sass/tree/visitors/base.rb:37:in `visit'
 /home/ryan/.rvm/gems/ruby-1.9.2-p290/gems/sass-3.1.12/lib/sass/tree/visitors/perform.rb:18:in `visit'
 /home/ryan/.rvm/gems/ruby-1.9.2-p290/gems/sass-3.1.12/lib/sass/tree/visitors/base.rb:53:in `block in visit_children'
@@ -92,4 +91,4 @@ Backtrace:
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Syntax error: File to import not found or unreadable: custom/custom.\A               Load paths:\A                 Compass::SpriteImporter\A                 /home/ryan/newRails/toAssess/public/stylesheets/sass\A                 /home/ryan/newRails/toAssess/app/assets/stylesheets\A                 /home/ryan/.rvm/gems/ruby-1.9.2-p290/gems/compass-0.11.5/frameworks/blueprint/stylesheets\A                 /home/ryan/.rvm/gems/ruby-1.9.2-p290/gems/compass-0.11.5/frameworks/compass/stylesheets\A                 /home/ryan/.rvm/gems/ruby-1.9.2-p290/gems/compass_twitter_bootstrap-0.1.8/stylesheets\A         on line 5 of /home/ryan/newRails/toAssess/app/assets/stylesheets/app.css.scss\A \A 1: @import \"compass\";\A 2: @import \"compass_twitter_bootstrap\";\A 3: \A 4: // custom stuff\A 5: @import \"custom/custom\";\A 6: \A 7: body, html { width: 100%; height: 100%; }\A 8: body {\A 9:   background-color: $hanLightBlue;\A 10: }"; }
+  content: "Syntax error: Undefined mixin 'border-radius'.\A         on line 16 of /home/ryan/newRails/toAssess/app/assets/stylesheets/markdown/markdown.css.scss, in `border-radius'\A         from line 16 of /home/ryan/newRails/toAssess/app/assets/stylesheets/markdown/markdown.css.scss\A \A 11: .wmd-prompt-background {	background-color: #000; }\A 12: .wmd-prompt-dialog {\A 13:   padding: 5px;\A 14:   background-color: #f5f5f5;\A 15:   border: 1px solid rgba(0, 0, 0, .1);\A 16:   @include border-radius(6px);\A 17: }\A 18: // end markdown editor //"; }

@@ -1,45 +1,59 @@
-<h2>Algemene informatie</h2>
-<%= form_for @exam do |f| %>
-<input type="hidden" name="exam[user_id]" value="<%= current_user.id %>" id="exam-user-id" />
-<div class="clearfix">
-  <label>Course</label>
-  <div class="input">
-  <ul class="inputs-list new-exam-courses">
-  <% for category in @categories %>
-    <% if category.courses.any? { |c| current_user.courses.include?(c) } %>
-    <li>
-      <span><%= category.name %></span>
-      <ul>
-        <% for course in category.courses %>
-        <% if current_user.courses.include? course %>
-        <label>
-          <input type="radio" value="<%= course.id %>" name="exam[course_id]">
-          <span><%= course.name %></span>
-        </label>
-        <% end %>
-        <% end %>
-      </ul>
-    </li>
-  <% end %>
-  <% end %>
-  </ul>
-  </div>
-</div>
-<div class="clearfix">
-<%= f.label :title, 'Titel' %>
-<div class="input"><%= f.text_field :title %></div>
-</div>
-<div class="clearfix">
-<%= f.label :description, 'Beschrijving' %>
-<div class="input"><%= f.text_area :description, :rows => '5' %></div>
+<% title 'Nieuw tentamen' %>
+<% description 'Voeg algemene gegevens en vragen toe' %>
+
+<div class="row">
+  <%= form_for @exam do |f| %>
+    <fieldset>
+      <legend>Selecteer een course en voer een titel en een beschrijving in</legend>
+      <div class="clearfix">
+        <label>Course</label>
+        <div class="input" style="padding-top: 6px;">
+          <input type="hidden" name="exam[user_id]" value="<%= current_user.id %>" />
+          <ul class="inputs-list">
+            <% for category in @categories %>
+              <% if category.courses.any? { |c| current_user.courses.include?(c) } %>
+              <li>
+                <span><%= category.name %></span>
+                <ul>
+                  <% for course in category.courses %>
+                    <% if current_user.courses.include? course %>
+                    <label>
+                      <input type="radio" value="<%= course.id %>" name="exam[course_id]">
+                      <span><%= course.name %></span>
+                    </label>
+                    <% end %>
+                  <% end %>
+                </ul>
+              </li>
+            <% end %>
+          <% end %>
+          </ul>
+        </div>
+      </div>
+      <div class="clearfix">
+        <%= f.label :title, 'Titel' %>
+        <div class="input">
+          <%= f.text_field :title, :class => 'xlarge' %>
+        </div>
+      </div>
+      <div class="clearfix">
+        <%= f.label :description, 'Beschrijving', :style => 'padding-top: 12px;' %>
+        <div class="input">
+          <div id="wmd-button-bar-0"></div>
+          <%= f.text_area :description, :id => 'wmd-input-0', :class => 'pull-left' %>
+          <div id="wmd-preview-0" class="preview pull-right"></div>
+        </div>
+      </div>
+    </fieldset>
 </div>
 <h2>Vragen</h2>
-<table id="questions">
-</table>
+<div id="exam-questions" class="row">
+
+</div>
 <div class="actions">
   <a href="#" id="add-open-question" class="btn success">Open vraag toevoegen</a>&nbsp;<a href="#" id="add-mc-question" class="btn success">Multiple-choice vraag toevoegen</a>&nbsp;<a href="#" id="add-thesis-question" class="btn success">Stellingvraag toevoegen</a>
 </div>
 <div class="actions">
-  <%= f.submit 'Tentamen toevoegen', :class => 'btn primary' %>
+  <%= f.submit 'Tentamen opslaan', :class => 'btn primary' %>
 </div>
 <% end %>

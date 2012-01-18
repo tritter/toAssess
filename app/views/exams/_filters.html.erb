@@ -31,24 +31,40 @@
       </div>
     </div>
     <div class="clearfix">
-      <h5>Vragen <small>aantal van 1 tot en met 10</small></h5>
+      <% unless @max_number_of_questions[0].nil? %>
+        <h5>Vragen <small>aantal van 0 tot en met <%= @max_number_of_questions[0].number_of_questions %></small></h5>
+      <% else %>
+        <h5>Vragen <small>aantal van 0 tot en met 0</small></h5>
+      <% end %>
       <div class="input">
         <p></p>
-        <input type="range" id="number_of_questions" name="number_of_questions" min="1" max="10" value="10" />
+        <% unless @max_number_of_questions[0].nil? %>
+          <input type="range" id="number_of_questions" name="number_of_questions" min="0" max="<%= @max_number_of_questions[0].number_of_questions %>" value="<%= @max_number_of_questions[0].number_of_questions %>" />
+        <% else %>
+          <input type="range" id="number_of_questions" name="number_of_questions" min="0" max="0" value="0" />
+        <% end %>
       </div>
     </div>
     <div class="clearfix">
       <h5>Moeilijkheid <small>graad van 1 tot en met 10</small></h5>
       <div class="input">
         <p></p>
-        <input type="range" id="average_difficulty" name="average_difficulty" min="1" max="10" value="10" />
+        <input type="range" id="average_difficulty" name="average_difficulty" min="0" max="10" value="10" />
       </div>
     </div>
     <div class="clearfix">
-      <h5>Tijdsduur <small>van 5 tot en met 180 minuten</small></h5>
+      <% unless @max_amount_of_time[0].nil? %>
+        <h5>Tijdsduur <small>van 0 tot en met <%= @max_amount_of_time[0].amount_of_time %> minuten</small></h5>
+      <% else %>
+        <h5>Tijdsduur <small>van 0 tot en met 0 minuten</small></h5>
+      <% end %>
       <div class="input">
         <p></p>
-        <input type="range" id="amount_of_time" name="amount_of_time" min="5" max="180" step="5" value="180" />
+        <% unless @max_amount_of_time[0].nil? %>
+          <input type="range" id="amount_of_time" name="amount_of_time" min="0" max="<%= @max_amount_of_time[0].amount_of_time %>" step="5" value="<%= @max_amount_of_time[0].amount_of_time %>" />
+        <% else %>
+          <input type="range" id="amount_of_time" name="amount_of_time" min="0" max="0" step="5" value="0" />
+        <% end %>
       </div>
     </div>
   </form>

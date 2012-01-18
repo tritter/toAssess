@@ -1,0 +1,18 @@
+// markdown editor
+.wmd-button-row {	position: relative; margin: 10px 5px 5px 5px;	padding: 0;	height: 20px; }
+.wmd-spacer { 	width: 1px; 	height: 20px; 	margin-left: 14px; position: absolute; background-color: #c0c0c0; display: inline-block; list-style: none; }
+.wmd-button {
+  width: 20px; height: 20px; padding-left: 2px; padding-right: 3px; position: absolute; display: inline-block; list-style: none; cursor: pointer;
+  span { background-image: url(/assets/wmd-buttons.png); background-repeat: no-repeat; background-position: 0px 0px; width: 20px; height: 20px; display: inline-block; }
+}
+.wmd-spacer1 { left: 50px; }
+.wmd-spacer2 { left: 175px; }
+.wmd-spacer3 { left: 300px; }
+.wmd-prompt-background {	background-color: #000; }
+.wmd-prompt-dialog {
+  padding: 5px;
+  background-color: #f5f5f5;
+  border: 1px solid rgba(0, 0, 0, .1);
+  @include border-radius(6px);
+}
+// end markdown editor //
