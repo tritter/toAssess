@@ -54,6 +54,14 @@
 }
 
 // exam form
-.courses { margin-left: 60px; }
-.new-exam-courses span { color: #404040; }
-input.mini { width: 150px; }
+#exam-questions  {
+  h2, h3 { padding-left: 20px; }
+  hr, { margin-left: 20px; }
+  .delete-question { position: relative; top: -2px; }
+  input[type=checkbox]:checked+.delete-question { font-weight: bold; }
+}
+.input-prepend {
+  margin-bottom: 18px;
+  span { color: #404040; font-weight: bold; position: relative; top: -1px; }
+}
+input.mini { width: 233px; }

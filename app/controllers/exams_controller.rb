@@ -9,12 +9,12 @@ class ExamsController < ApplicationController
       @exams = @exams.where(:number_of_questions.lte => params[:number_of_questions]) unless params[:number_of_questions].blank?
       @exams = @exams.where(:average_difficulty.lte => params[:average_difficulty]) unless params[:average_difficulty].blank?
       @exams = @exams.where(:amount_of_time.lte => params[:amount_of_time]) unless params[:amount_of_time].blank?
-      @exams = @exams.order_by [:name, :asc]
+      @exams = @exams.order_by [:created_at, :desc]
     else
       @max_number_of_questions = Exam.order_by([:number_of_questions, :desc]).limit(1)
       @max_amount_of_time = Exam.order_by([:amount_of_time, :desc]).limit(1)
       @exams = Exam.order_by [:name, :asc]
-      @categories = Category.order_by [:name, :asc]
+      @categories = Category.order_by [:created_at, :desc]
     end
     respond_with @exams
   end

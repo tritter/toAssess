@@ -7,13 +7,14 @@ class Question
 
   accepts_nested_attributes_for :tags, :reject_if => lambda { |attributes| attributes[:name].blank? }, :allow_destroy => true
 
-  field :question_type, type: String
+  field :type, type: String
   field :question, type: String
+  field :answer, type: String
+  field :answers, type: Array
+  field :texts, type: Array
+  field :statements, type: Array
+  field :difficulty, type: Integer, default: 5
+  field :time, type: Integer, default: 5
 
-  validates_presence_of :question_type, :question
-
-  private
-  def check_question_type
-    errors.add(:question_type, 'invalid question') unless %W[open mc thesis].include? self.question_type
-  end
+  validates_presence_of :type, :question
 end

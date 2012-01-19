@@ -20,4 +20,4 @@
 //= require prettify/prettify
 //= require app
 //= require exams
-//= require users
+//= require questions

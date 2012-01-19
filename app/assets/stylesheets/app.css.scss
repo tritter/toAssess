@@ -33,7 +33,7 @@ body {
   @include single-box-shadow(#888, 0, 0, 10px, false, false);
   .center {
     text-align: center;
-    .alert-message { margin: auto; width: 458px; text-align: left; }
+    .alert-message { margin: auto; width: 458px; text-align: left; margin-bottom: 17px; }
   }
   .spinner {
     position: relative;
@@ -43,7 +43,7 @@ body {
     div {
       width: 12%;
       height: 26%;
-      background: #808080;
+      background: #ddd;
       position: absolute;
       left: 44.5%;
       top: 37%;
@@ -71,6 +71,10 @@ body {
   to {opacity: 0.25;}
 }
 
+.block-message {
+  margin-left: 20px; display: none;
+  li { display: none; }
+}
 textarea { width: 390px; height: 200px; }
 .preview { width: 382px; padding: 4px; border: 1px solid #ccc; @include border-radius(3px); }
 

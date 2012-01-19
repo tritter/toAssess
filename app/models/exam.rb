@@ -5,7 +5,7 @@ class Exam
   belongs_to :course
   belongs_to :user
 
-  accepts_nested_attributes_for :questions, :allow_destroy => true
+  accepts_nested_attributes_for :questions, :reject_if => lambda { |attributes| attributes[:question].blank? || attributes[:type].blank? }, :allow_destroy => true
 
   field :category_name, type: String
   field :course_name, type: String

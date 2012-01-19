@@ -1,0 +1,39 @@
+nl:
+  errors:
+    messages:
+      not_found: "niet gevonden"
+      already_confirmed: "is reeds bevestigd"
+      not_locked: "is niet gesloten"
+
+  devise:
+    failure:
+      unauthenticated: 'U dient in te loggen of u in te schrijven.'
+      unconfirmed: 'U dient eerst uw account te bevestigen.'
+      locked: 'Uw account is gelocked.'
+      invalid: 'Ongeldig e-mail of wachtwoord.'
+      invalid_token: 'Invalide authenticiteit token.'
+      timeout: 'Uw sessie is verlopen, log a.u.b. opnieuw in.'
+      inactive: 'Uw account is nog niet geactiveerd.'
+    sessions:
+      signed_in: 'U bent succesvol ingelogd.'
+      signed_out: 'U bent succesvol uitgelogd.'
+    passwords:
+      send_instructions: 'U ontvangt via e-mail instructies hoe u uw wachtwoord moet resetten.'
+      updated: 'Uw wachtwoord is gewijzigd. U bent nu ingelogd.'
+    confirmations:
+      send_instructions: 'U ontvangt via e-mail instructies hoe u uw account kan bevestigen.'
+      confirmed: 'Uw account is bevestigd.'
+    registrations:
+      signed_up: 'U bent ingeschreven.'
+      updated: 'Uw accountgegevens zijn opgeslagen.'
+      destroyed: 'Uw account is verwijderd, wellicht tot ziens!'
+    unlocks:
+      send_instructions: 'U ontvangt via e-mail instructies hoe u uw account kan un-locken.'
+      unlocked: 'Uw account is ge-unlocked. U kan nu weer inloggen.'
+    mailer:
+      confirmation_instructions:
+        subject: 'Bevestiging'
+      reset_password_instructions:
+        subject: 'Wachtwoord resetten'
+      unlock_instructions:
+        subject: 'Unlock instructies'

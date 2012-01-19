@@ -1,162 +1,348 @@
-<h2>Algemene informatie</h2>
+<% title 'Tentamen bijwerken' %>
+<% description 'Werk algemene gegevens en vragen bij' %>
+
 <%= form_for @exam do |f| %>
-<input type="hidden" name="exam[user_id]" value="<%= current_user.id %>" id="exam-user-id" />
-<div class="clearfix">
-  <label>Course</label>
-  <div class="input">
-  <ul class="inputs-list new-exam-courses">
-  <% for category in @categories %>
-    <% if category.courses.any? { |s| current_user.courses.include?(s) } %>
-    <li>
-      <span><%= category.name%></span>
-      <ul>
-        <% for course in category.courses %>
-        <% if current_user.courses.include? course %>
-        <label>
-          <input type="radio" value="<%= course.id %>" name="exam[course_id]" <%= 'checked' if @exam.course == course %>>
-          <span><%= course.name %></span>
-        </label>
+  <div class="row">
+    <%= render 'block-message' %>
+    <fieldset>
+      <legend>Selecteer een course en voer een titel en een beschrijving in</legend>
+      <div class="clearfix">
+        <label>Course</label>
+        <div class="input course" style="padding-top: 6px;">
+          <input type="hidden" name="exam[user_id]" value="<%= current_user.id %>" id="exam-user-id" />
+          <ul class="inputs-list">
+            <% for category in @categories %>
+              <% if category.courses.any? { |c| current_user.courses.include?(c) } %>
+              <li>
+                <span><%= category.name %></span>
+                <ul>
+                  <% for course in category.courses %>
+                    <% if current_user.courses.include? course %>
+                    <label>
+                      <input type="radio" value="<%= course.id %>" name="exam[course_id]" <%= 'checked' if @exam.course == course %>>
+                      <span><%= course.name %></span>
+                    </label>
+                    <% end %>
+                  <% end %>
+                </ul>
+              </li>
+            <% end %>
+          <% end %>
+          </ul>
+        </div>
+      </div>
+      <div class="clearfix">
+        <%= f.label :title, 'Titel' %>
+        <div class="input">
+          <%= f.text_field :title, :class => 'xlarge' %>
+        </div>
+      </div>
+      <div class="clearfix">
+        <%= f.label :description, 'Beschrijving', :style => 'padding-top: 12px;' %>
+        <div class="input">
+          <div id="wmd-button-bar-0"></div>
+          <%= f.text_area :description, :id => 'wmd-input-0', :class => 'pull-left' %>
+          <div id="wmd-preview-0" class="preview pull-right"></div>
+        </div>
+      </div>
+      <br /><br />
+      <div id="exam-questions">
+        <h2>Vragen</h2>
+        <hr />
+        <% @exam.questions.each_with_index do |q, i| %>
+        <% if q.type == 'open' %>
+        <div class="open-question">
+          <h3><span><%= i + 1 %>. </span><span class="question-title"><%= q.question + ' ' %></span><small>Open vraag</small></h3>
+          <div class="clearfix">
+            <label>Vraag</label>
+            <div class="input">
+              <input type="hidden" name="exam[questions_attributes][<%= i %>][id]" value="<%= q.id %>" />
+              <input type="hidden" name="exam[questions_attributes][<%= i %>][type]" value="open" />
+              <input type="text" class="xlarge" name="exam[questions_attributes][<%= i %>][question]" value="<%= q.question %>" />
+            </div>
+          </div>
+          <div class="clearfix">
+            <label style="padding-top: 12px;">Antwoord</label>
+            <div class="input">
+              <div id="wmd-button-bar-<%= i + 1 %>"></div>
+              <textarea id="wmd-input-<%= i + 1 %>" class="pull-left" name="exam[questions_attributes][<%= i %>][answer]"><%= q.answer %></textarea>
+              <div id="wmd-preview-<%= i + 1 %>" class="preview pull-right"></div>
+            </div>
+          </div>
+          <div class="clearfix">
+            <div class="input">
+              <input type="checkbox" name="exam[questions_attributes][<%= i %>][_destroy]" value="1" /><span class="delete-question"> Vraag verwijderen</span>
+            </div>
+          </div>
+          <div class="clearfix">
+            <label>Moeilijkheid</label>
+            <div class="input">
+              <input type="text" class="span1" name="exam[questions_attributes][<%= i %>][difficulty]" value="<%= q.difficulty %>"><span> uit 10</span>
+            </div>
+          </div>
+          <div class="clearfix">
+            <label>Tijdsduur</label>
+            <div class="input">
+              <input type="text" class="span1" name="exam[questions_attributes][<%= i %>][time]" value="<%= q.time %>"><span> minuten</span>
+            </div>
+          </div>
+          <hr />
+        </div>
+        <% elsif q.type == 'multiple_choice' %>
+        <div class="multiple_choice-question">
+          <h3><span><%= i + 1 %>. </span><span class="question-title"><%= q.question + ' ' %></span><small>Multiple-choice vraag</small></h3>
+          <div class="clearfix">
+            <label>Vraag</label>
+            <div class="input">
+              <input type="hidden" name="exam[questions_attributes][<%= i %>][id]" value="<%= q.id %>" />
+              <input type="hidden" name="exam[questions_attributes][<%= i %>][type]" value="multiple_choice" />
+              <input type="text" class="xlarge" name="exam[questions_attributes][<%= i %>][question]" value="<%= q.question %>" />
+            </div>
+          </div>
+          <div class="clearfix">
+            <label>Antwoorden</label>
+            <div class="input">
+              <div class="input-prepend">
+                <label class="add-on"><span>A </span><input type="radio" name="exam[questions_attributes][<%= i %>][answer]" value="0" <%= 'checked ' if q.answer.to_i == 0 %>/></label>
+                <input class="mini" name="exam[questions_attributes][<%= i %>][texts][]" size="30" type="text" value="<%= q.texts[0] unless q.texts[0].nil? %>" />
+              </div>
+              <div class="input-prepend">
+                <label class="add-on"><span>B </span><input type="radio" name="exam[questions_attributes][<%= i %>][answer]" value="1" <%= 'checked ' if q.answer.to_i == 1 %>/></label>
+                <input class="mini" name="exam[questions_attributes][<%= i %>][texts][]" size="30" type="text" value="<%= q.texts[1] unless q.texts[1].nil? %>" />
+              </div>
+              <div class="input-prepend">
+                <label class="add-on"><span>C </span><input type="radio" name="exam[questions_attributes][<%= i %>][answer]" value="2" <%= 'checked ' if q.answer.to_i == 2 %>/></label>
+                <input class="mini" name="exam[questions_attributes][<%= i %>][texts][]" size="30" type="text" value="<%= q.texts[2] unless q.texts[2].nil? %>" />
+              </div>
+              <div class="input-prepend">
+                <label class="add-on"><span>D </span><input type="radio" name="exam[questions_attributes][<%= i %>][answer]" value="3" <%= 'checked ' if q.answer.to_i == 3 %>/></label>
+                <input class="mini" name="exam[questions_attributes][<%= i %>][texts][]" size="30" type="text" value="<%= q.texts[3] unless q.texts[3].nil? %>" />
+              </div>
+            </div>
+          </div>
+          <div class="clearfix">
+            <div class="input">
+              <input type="checkbox" name="exam[questions_attributes][<%= i %>][_destroy]" value="1" /><span class="delete-question"> Vraag verwijderen</span>
+            </div>
+          </div>
+          <div class="clearfix">
+            <label>Moeilijkheid</label>
+            <div class="input">
+              <input type="text" class="span1" name="exam[questions_attributes][<%= i %>][difficulty]" value="<%= q.difficulty %>"><span> uit 10</span>
+            </div>
+          </div>
+          <div class="clearfix">
+            <label>Tijdsduur</label>
+            <div class="input">
+              <input type="text" class="span1" name="exam[questions_attributes][<%= i %>][time]" value="<%= q.time %>"><span> minuten</span>
+            </div>
+          </div>
+          <hr />
+        </div>
+        <% elsif q.type == 'true_false' %>
+        <div class="true_false-question">
+          <h3><span><%= i + 1 %>. </span><span class="question-title"><%= q.question + ' ' %></span><small>Waarheidsvraag</small></h3>
+          <div class="clearfix">
+            <label>Vraag</label>
+            <div class="input">
+              <input type="hidden" name="exam[questions_attributes][<%= i %>][id]" value="<%= q.id %>" />
+              <input type="hidden" name="exam[questions_attributes][<%= i %>][type]" value="true_false" />
+              <input type="text" class="xlarge" name="exam[questions_attributes][<%= i %>][question]" value="<%= q.question %>" />
+            </div>
+          </div>
+          <div class="clearfix">
+            <label>Waar of niet waar</label>
+            <div class="input">
+              <ul class="inputs-list">
+                <li>
+                  <label>
+                    <input type="radio" value="1" name="exam[questions_attributes][<%= i %>][answer]" <%= 'checked ' if q.answer.to_i == 1 %>/>
+                    <span>Dit is waar.</span>
+                  </label>
+                </li>
+                <li>
+                  <label>
+                    <input type="radio" value="0" name="exam[questions_attributes][<%= i %>][answer]" <%= 'checked ' if q.answer.to_i == 0 %>/>
+                    <span>Dit is niet waar.</span>
+                  </label>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="clearfix">
+            <div class="input">
+              <input type="checkbox" name="exam[questions_attributes][<%= i %>][_destroy]" value="1" /><span class="delete-question"> Vraag verwijderen</span>
+            </div>
+          </div>
+          <div class="clearfix">
+            <label>Moeilijkheid</label>
+            <div class="input">
+              <input type="text" class="span1" name="exam[questions_attributes][<%= i %>][difficulty]" value="<%= q.difficulty %>"><span> uit 10</span>
+            </div>
+          </div>
+          <div class="clearfix">
+            <label>Tijdsduur</label>
+            <div class="input">
+              <input type="text" class="span1" name="exam[questions_attributes][<%= i %>][time]" value="<%= q.time %>"><span> minuten</span>
+            </div>
+          </div>
+          <hr />
+        </div>
+        <% elsif q.type == 'multiple_answers' %>
+        <div class="multiple_answers-question">
+          <h3><span><%= i + 1 %>. </span><span class="question-title"><%= q.question + ' ' %></span><small>Meerdere antwoorden vraag</small></h3>
+          <div class="clearfix">
+            <label>Vraag</label>
+            <div class="input">
+              <input type="hidden" name="exam[questions_attributes][<%= i %>][id]" value="<%= q.id %>" />
+              <input type="hidden" name="exam[questions_attributes][<%= i %>][type]" value="multiple_answers" />
+              <input type="text" class="xlarge" name="exam[questions_attributes][<%= i %>][question]" value="<%= q.question %>" />
+            </div>
+          </div>
+          <div class="clearfix">
+            <label>Antwoorden</label>
+            <div class="input">
+              <div class="input-prepend">
+                <label class="add-on"><span>A </span><input type="checkbox" name="exam[questions_attributes][<%= i %>][answers][]" value="0" <%= 'checked ' if q.answers.include? '0' %>/></label>
+                <input class="mini" name="exam[questions_attributes][<%= i %>][texts][]" size="30" type="text" value="<%= q.texts[0] unless q.texts[0].nil? %>" />
+              </div>
+              <div class="input-prepend">
+                <label class="add-on"><span>B </span><input type="checkbox" name="exam[questions_attributes][<%= i %>][answers][]" value="1" <%= 'checked ' if q.answers.include? '1' %>/></label>
+                <input class="mini" name="exam[questions_attributes][<%= i %>][texts][]" size="30" type="text" value="<%= q.texts[1] unless q.texts[1].nil? %>" />
+              </div>
+              <div class="input-prepend">
+                <label class="add-on"><span>C </span><input type="checkbox" name="exam[questions_attributes][<%= i %>][answers][]" value="2" <%= 'checked ' if q.answers.include? '2' %>/></label>
+                <input class="mini" name="exam[questions_attributes][<%= i %>][texts][]" size="30" type="text" value="<%= q.texts[2] unless q.texts[2].nil? %>" />
+              </div>
+              <div class="input-prepend">
+                <label class="add-on"><span>D </span><input type="checkbox" name="exam[questions_attributes][<%= i %>][answers][]" value="3" <%= 'checked ' if q.answers.include? '3' %>/></label>
+                <input class="mini" name="exam[questions_attributes][<%= i %>][texts][]" size="30" type="text" value="<%= q.texts[3] unless q.texts[3].nil? %>" />
+              </div>
+              <div class="input-prepend">
+                <label class="add-on"><span>E </span><input type="checkbox" name="exam[questions_attributes][<%= i %>][answers][]" value="4" <%= 'checked ' if q.answers.include? '4' %>/></label>
+                <input class="mini" name="exam[questions_attributes][<%= i %>][texts][]" size="30" type="text" value="<%= q.texts[4] unless q.texts[4].nil? %>" />
+              </div>
+              <div class="input-prepend">
+                <label class="add-on"><span>F </span><input type="checkbox" name="exam[questions_attributes][<%= i %>][answers][]" value="5" <%= 'checked ' if q.answers.include? '5' %>/></label>
+                <input class="mini" name="exam[questions_attributes][<%= i %>][texts][]" size="30" type="text" value="<%= q.texts[5] unless q.texts[5].nil? %>" />
+              </div>
+              <div class="input-prepend">
+                <label class="add-on"><span>G </span><input type="checkbox" name="exam[questions_attributes][<%= i %>][answers][]" value="6" <%= 'checked ' if q.answers.include? '6' %>/></label>
+                <input class="mini" name="exam[questions_attributes][<%= i %>][texts][]" size="30" type="text" value="<%= q.texts[6] unless q.texts[6].nil? %>" />
+              </div>
+              <div class="input-prepend">
+                <label class="add-on"><span>H </span><input type="checkbox" name="exam[questions_attributes][<%= i %>][answers][]" value="7" <%= 'checked ' if q.answers.include? '7' %>/></label>
+                <input class="mini" name="exam[questions_attributes][<%= i %>][texts][]" size="30" type="text" value="<%= q.texts[7] unless q.texts[7].nil? %>" />
+              </div>
+            </div>
+          </div>
+          <div class="clearfix">
+            <div class="input">
+              <input type="checkbox" name="exam[questions_attributes][<%= i %>][_destroy]" value="1" /><span class="delete-question"> Vraag verwijderen</span>
+            </div>
+          </div>
+          <div class="clearfix">
+            <label>Moeilijkheid</label>
+            <div class="input">
+              <input type="text" class="span1" name="exam[questions_attributes][<%= i %>][difficulty]" value="<%= q.difficulty %>"><span> uit 10</span>
+            </div>
+          </div>
+          <div class="clearfix">
+            <label>Tijdsduur</label>
+            <div class="input">
+              <input type="text" class="span1" name="exam[questions_attributes][<%= i %>][time]" value="<%= q.time %>"><span> minuten</span>
+            </div>
+          </div>
+          <hr />
+        </div>
+        <% elsif q.type == 'statements' %>
+        <div class="statements-question">
+          <h3><span><%= i + 1 %>. </span><span class="question-title"><%= q.question + ' ' %></span><small>Stellingvraag</small></h3>
+          <div class="clearfix">
+            <label>Stelling I</label>
+            <div class="input">
+              <input type="text" class="xlarge" name="exam[questions_attributes][<%= i %>][statements][]" value="<%= q.statements[0] %>" />
+            </div>
+          </div>
+          <div class="clearfix">
+            <label>Stelling II</label>
+            <div class="input">
+              <input type="text" class="xlarge" name="exam[questions_attributes][<%= i %>][statements][]" value="<%= q.statements[1] %>" />
+            </div>
+          </div>
+          <div class="clearfix">
+            <label>Vraag</label>
+            <div class="input">
+              <input type="hidden" name="exam[questions_attributes][<%= i %>][id]" value="<%= q.id %>" />
+              <input type="hidden" name="exam[questions_attributes][<%= i %>][type]" value="statements" />
+              <input type="text" class="xlarge" name="exam[questions_attributes][<%= i %>][question]" value="<%= q.question %>" />
+            </div>
+          </div>
+          <div class="clearfix">
+            <label>Antwoorden</label>
+            <div class="input">
+              <ul class="inputs-list">
+                <li>
+                  <label>
+                    <input type="radio" value="0" name="exam[questions_attributes][<%= i %>][answer]" <%= 'checked ' if q.answer.to_i == 0 %>/>
+                    <span>Stelling I is waar.</span>
+                  </label>
+                </li>
+                <li>
+                  <label>
+                    <input type="radio" value="1" name="exam[questions_attributes][<%= i %>][answer]" <%= 'checked ' if q.answer.to_i == 1 %>/>
+                    <span>Stelling II is waar.</span>
+                  </label>
+                </li>
+                <li>
+                  <label>
+                    <input type="radio" value="2" name="exam[questions_attributes][<%= i %>][answer]" <%= 'checked ' if q.answer.to_i == 2 %>/>
+                    <span>Beide stellingen zijn waar.</span>
+                  </label>
+                </li>
+                <li>
+                  <label>
+                    <input type="radio" value="3" name="exam[questions_attributes][<%= i %>][answer]" <%= 'checked ' if q.answer.to_i == 3 %>/>
+                    <span>Beide stellingen zijn niet waar.</span>
+                  </label>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="clearfix">
+            <div class="input">
+              <input type="checkbox" name="exam[questions_attributes][<%= i %>][_destroy]" value="1" /><span class="delete-question"> Vraag verwijderen</span>
+            </div>
+          </div>
+          <div class="clearfix">
+            <label>Moeilijkheid</label>
+            <div class="input">
+              <input type="text" class="span1" name="exam[questions_attributes][<%= i %>][difficulty]" value="<%= q.difficulty %>"><span> uit 10</span>
+            </div>
+          </div>
+          <div class="clearfix">
+            <label>Tijdsduur</label>
+            <div class="input">
+              <input type="text" class="span1" name="exam[questions_attributes][<%= i %>][time]" value="<%= q.time %>"><span> minuten</span>
+            </div>
+          </div>
+          <hr />
+        </div>
         <% end %>
         <% end %>
-      </ul>
-    </li>
-  <% end %>
-  <% end %>
-  </ul>
+      </div>
+    </fieldset>
   </div>
-</div>
-<div class="clearfix">
-<%= f.label :title, 'Titel' %>
-<div class="input"><%= f.text_field :title %></div>
-</div>
-<div class="clearfix">
-<%= f.label :description, 'Beschrijving' %>
-<div class="input"><%= f.text_area :description, :rows => '5' %></div>
-</div>
-<h2>Vragen</h2>
-<table id="questions">
-<% @exam.questions.each_with_index do |q, i| %>
-  <thead>
-    <tr><th>#</th><th>Type</th><th>Vraag</th><th>Antwoord</th><th>Verwijderen</th></tr>
-  </thead>
-  <% if q.question_type == 'open' %>
-  <tbody>
-    <tr>
-      <td><%= i + 1 %><input type="hidden" name="exam[questions_attributes][<%= i %>][id]" value="<%= q.id %>" /></td>
-      <td>Open<input type="hidden" name="exam[questions_attributes][<%= i %>][question_type]" value="open" /></td>
-      <td><input type="text" name="exam[questions_attributes][<%= i %>][question]" value="<%= q.question %>" /></td>
-      <td><textarea name="exam[questions_attributes][<%= i %>][answer]" rows="5"><%= q.answer %></textarea></td>
-      <td>
-        <input as="boolean" name="exam[questions_attributes][<%= i %>][_destroy]" type="checkbox" value="1" />
-        <input type="hidden" name="exam[questions_attributes][<%= i %>][difficulty]" value="<%= q.difficulty %>" />
-        <input type="hidden" name="exam[questions_attributes][<%= i %>][time]" value="<%= q.time %>" />
-      </td>
-    </tr>
-  </tbody>
-  <% elsif q.question_type == 'mc' %>
-  <tbody>
-    <tr>
-      <td><%= i + 1 %><input type="hidden" name="exam[questions_attributes][<%= i %>][id]" value="<%= q.id %>" /></td>
-      <td>Multiple-choice<input type="hidden" name="exam[questions_attributes][<%= i %>][question_type]" value="mc" /></td>
-      <td><input type="text" name="exam[questions_attributes][<%= i %>][question]" value="<%= q.question %>" /></td>
-      <td>
-        <div class="clearfix">
-          <div class="input-prepend">
-            <label class="add-on">A <input type="radio" name="exam[questions_attributes][<%= i %>][correct]" value="0" <%= 'checked' if q.correct.to_i == 0 %> /></label>
-            <input class="mini" name="exam[questions_attributes][<%= i %>][answer][0][text]" size="30" type="text" value="<%= q.answer.to_a[0][1].to_a[0][1] %>">
-          </div>
-        </div>
-        <div class="clearfix">
-          <div class="input-prepend">
-            <label class="add-on">B <input type="radio" name="exam[questions_attributes][<%= i %>][correct]" value="1" <%= 'checked' if q.correct.to_i == 1 %> /></label>
-            <input class="mini" name="exam[questions_attributes][<%= i %>][answer][1][text]" size="30" type="text" value="<%= q.answer.to_a[1][1].to_a[0][1] %>">
-          </div>
-        </div>
-        <div class="clearfix">
-          <div class="input-prepend">
-            <label class="add-on">C <input type="radio" name="exam[questions_attributes][<%= i %>][correct]" value="2" <%= 'checked' if q.correct.to_i == 2 %> /></label>
-            <input class="mini" name="exam[questions_attributes][<%= i %>][answer][2][text]" size="30" type="text" value="<%= q.answer.to_a[2][1].to_a[0][1] %>">
-          </div>
-        </div>
-        <div class="clearfix">
-          <div class="input-prepend">
-            <label class="add-on">D <input type="radio" name="exam[questions_attributes][<%= i %>][correct]" value="3" <%= 'checked' if q.correct.to_i == 3 %> /></label>
-            <input class="mini" name="exam[questions_attributes][<%= i %>][answer][3][text]" size="30" type="text" value="<%= q.answer.to_a[3][1].to_a[0][1] %>">
-          </div>
-        </div>
-      </td>
-      <td>
-        <input as="boolean" name="exam[questions_attributes][<%= i %>][_destroy]" type="checkbox" value="1" />
-        <input type="hidden" name="exam[questions_attributes][<%= i %>][difficulty]" value="<%= q.difficulty %>" />
-        <input type="hidden" name="exam[questions_attributes][<%= i %>][time]" value="<%= q.time %>" />
-      </td>
-    </tr>
-  </tbody>
-  <% elsif q.question_type == 'thesis' %>
-  <tbody>
-    <tr>
-      <td><%= i + 1 %><input type="hidden" name="exam[questions_attributes][<%= i %>][id]" value="<%= q.id %>" /></td>
-      <td>Stelling<input type="hidden" name="exam[questions_attributes][<%= i %>][question_type]" value="thesis" /></td>
-      <td>
-        <div class="clearfix">
-          <div class="input"><input type="text" name="exam[questions_attributes][<%= i %>][question]" value="<%= q.question %>" /></div>
-        </div>
-        <div class="clearfix">
-          <label>Stelling 1:</label>
-          <div class="input">
-            <input type="text" name="exam[questions_attributes][<%= i %>][thesis][0][text]" value="<%= q.thesis.to_a[0][1].to_a[0][1] %>" />
-          </div>
-        </div>
-        <div class="clearfix">
-          <label>Stelling 2:</label>
-          <div class="input">
-            <input type="text" name="exam[questions_attributes][<%= i %>][thesis][1][text]" value="<%= q.thesis.to_a[1][1].to_a[0][1] %>" />
-          </div>
-        </div>
-      </td>
-      <td>
-        <ul class="inputs-list">
-          <li>
-            <label>
-              <input type="radio" name="exam[questions_attributes][<%= i %>][correct]" value="0" <%= 'checked' if q.correct.to_i == 0 %> />
-              <span>Stelling 1 is waar.</span>
-            </label>
-          </li>
-          <li>
-            <label>
-              <input type="radio" name="exam[questions_attributes][<%= i %>][correct]" value="1" <%= 'checked' if q.correct.to_i == 1 %> />
-              <span>Stelling 2 is waar.</span>
-            </label>
-          </li>
-          <li>
-            <label>
-              <input type="radio" name="exam[questions_attributes][<%= i %>][correct]" value="2" <%= 'checked' if q.correct.to_i == 2 %> />
-              <span>Beide stellingen zijn waar.</span>
-            </label>
-          </li>
-          <li>
-            <label>
-              <input type="radio" name="exam[questions_attributes][<%= i %>][correct]" value="3" <%= 'checked' if q.correct.to_i == 3 %> />
-              <span>Beide stellingen zijn niet waar.</span>
-            </label>
-          </li>
-        </ul>
-      </td>
-      <td>
-        <input as="boolean" name="exam[questions_attributes][<%= i %>][_destroy]" type="checkbox" value="1" />
-        <input type="hidden" name="exam[questions_attributes][<%= i %>][difficulty]" value="<%= q.difficulty %>" />
-        <input type="hidden" name="exam[questions_attributes][<%= i %>][time]" value="<%= q.time %>" />
-      </td>
-    </tr>
-  </tbody>
-  <% end %>
-<% end %>
-</table>
-<div class="actions">
-  <a href="#" id="add-open-question" class="btn success">Open vraag toevoegen</a>&nbsp;<a href="#" id="add-mc-question" class="btn success">Multiple-choice vraag toevoegen</a>&nbsp;<a href="#" id="add-thesis-question" class="btn success">Stellingvraag toevoegen</a>
-</div>
-<div class="actions">
-  <%= f.submit 'Tentamen bijwerken', :class => 'btn primary' %>
-  <%= link_to 'Tentamen verwijderen', exam_path(@exam), :method => :delete, :confirm => 'Weet u het zeker?', :class => 'btn danger' %>
-</div>
+  <div class="actions">
+    <h4>Voeg een vraag toe:</h4>
+    <a href="#" id="add-open-question" class="btn">Open vraag</a>
+    &nbsp;<a href="#" id="add-true_false-question" class="btn">Waarheidsvraag</a>
+    &nbsp;<a href="#" id="add-multiple_choice-question" class="btn">Multiple-choice vraag</a>
+    &nbsp;<a href="#" id="add-multiple_answers-question" class="btn">Meerdere antwoorden vraag</a>
+    &nbsp;<a href="#" id="add-statements-question" class="btn">Stellingvraag</a>
+  </div>
+  <div class="actions">
+    <%= f.submit 'Tentamen bijwerken', :class => 'btn primary' %>
+    <%= link_to 'Tentamen verwijderen', exam_path(@exam), :method => :delete, :class => 'btn danger', :confirm => 'Weet u zeker dat u dit tentamen wil verwijderen?' %>
+  </div>
 <% end %>
