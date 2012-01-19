@@ -1,6 +1,6 @@
 ToAssess::Application.routes.draw do
   devise_for :users, :controllers => {:registrations => 'users' }
-  resources :exams, :questions, :categories, :courses, :tags, :users
+  resources :exams, :questions, :categories, :courses, :users
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

@@ -48,9 +48,9 @@ filterExams = () ->
   $('.span11 h2 small').empty()
   $('#exams-list .spinner').show()
   window.stop() # cancel any current ajax request
-  $.getJSON('/exams?' + $('#filters form').serialize(), (data) -> buildExamList(data))
+  $.getJSON('/exams?' + $('#filters form').serialize(), (data) -> buildExamsList(data))
 
-buildExamList = (data) ->
+buildExamsList = (data) ->
   template = ''
   if data.length is 0
     template += '<p>Geen tentamens gevonden.</p>'
@@ -62,8 +62,7 @@ buildExamList = (data) ->
       template += '<div class="exam-item">
                     <h3 class="pull-left"><a href="/exams/' + item._id + '/edit">' + item.title + '</a> <small>' + item.category_name + ' - ' + item.course_name + '</small></h3>
                     <table class="condensed-table">
-                      <tr><td>Onderwerpen:</td><td colspan="3">*TODO*</td></tr>
-                      <tr><td>Aantal vragen:</td><td>' + item.number_of_questions + ' vragen</td><td>Type vragen:</td><td>*TODO*</td></tr>
+                      <tr><td>Aantal vragen:</td><td>' + item.number_of_questions + ' vragen</td></tr>
                       <tr><td>Tijdsduur:</td><td>' + item.amount_of_time + ' minuten</td><td>Moeilijkheid:</td><td>' + item.average_difficulty + ' uit 10</td></tr>
                       <tr><td>Gemaakt op:</td><td>' + date + '</td><td>Gemaakt door:</td><td>' + item.author + '</td></tr>
                     </table>

@@ -1,11 +1,11 @@
-<% title 'Tentamen bijwerken' %>
-<% description 'Werk algemene gegevens en vragen bij' %>
+<% title @exam.title %>
+<% description '' %>
 
 <%= form_for @exam do |f| %>
   <div class="row">
     <%= render 'block-message' %>
     <fieldset>
-      <legend>Selecteer een course en voer een titel en een beschrijving in</legend>
+      <legend>Werk de gegevens bij</legend>
       <div class="clearfix">
         <label>Course</label>
         <div class="input course" style="padding-top: 6px;">

@@ -1,0 +1,71 @@
+<h2>Filters</h2>
+<div id="filters">
+  <form action="/exams" method="GET">
+    <div class="clearfix">
+      <h5>Zoeken <small>in vragen</small></h5>
+      <div class="input">
+        <input type="hidden" name="filters" value="1" />
+        <input type="text" name="search" id="search" />
+      </div>
+    </div>
+    <div class="clearfix">
+      <h5>Types <small>5 verschillende vraagtypes</small></h5>
+      <div class="input" id="types-list">
+        <ul class="inputs-list">
+          <li>
+            <label>
+              <input type="checkbox" name="types[]" value="open">
+              <span>Open vraag</span>
+            </label>
+          </li>
+          <li>
+            <label>
+              <input type="checkbox" name="types[]" value="true_false">
+              <span>Waarheidsvraag</span>
+            </label>
+          </li>
+          <li>
+            <label>
+              <input type="checkbox" name="types[]" value="multiple_choice">
+              <span>Multiple-choice vraag</span>
+            </label>
+          </li>
+          <li>
+            <label>
+              <input type="checkbox" name="types[]" value="multiple_answers">
+              <span>Meerdere antwoorden vraag</span>
+            </label>
+          </li>
+          <li>
+            <label>
+              <input type="checkbox" name="types[]" value="statements">
+              <span>Stellingvraag</span>
+            </label>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="clearfix">
+      <h5>Moeilijkheid <small>graad van 1 tot en met 10</small></h5>
+      <div class="input">
+        <p></p>
+        <input type="range" id="average_difficulty" name="difficulty" min="0" max="10" value="10" />
+      </div>
+    </div>
+    <div class="clearfix">
+      <% unless @max_time[0].nil? %>
+        <h5>Tijdsduur <small>van 0 tot en met <%= @max_time[0].time %> minuten</small></h5>
+      <% else %>
+        <h5>Tijdsduur <small>van 0 tot en met 0 minuten</small></h5>
+      <% end %>
+      <div class="input">
+        <p></p>
+        <% unless @max_time[0].nil? %>
+          <input type="range" id="amount_of_time" name="time" min="0" max="<%= @max_time[0].time %>" step="5" value="<%= @max_time[0].time %>" />
+        <% else %>
+          <input type="range" id="amount_of_time" name="time" min="0" max="0" step="5" value="0" />
+        <% end %>
+      </div>
+    </div>
+  </form>
+</div>

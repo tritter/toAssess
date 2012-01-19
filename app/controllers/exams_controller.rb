@@ -13,8 +13,7 @@ class ExamsController < ApplicationController
     else
       @max_number_of_questions = Exam.order_by([:number_of_questions, :desc]).limit(1)
       @max_amount_of_time = Exam.order_by([:amount_of_time, :desc]).limit(1)
-      @exams = Exam.order_by [:name, :asc]
-      @categories = Category.order_by [:created_at, :desc]
+      @categories = Category.order_by [:name, :asc]
     end
     respond_with @exams
   end
@@ -45,7 +44,7 @@ class ExamsController < ApplicationController
     if @exam.update_attributes params[:exam]
       flash[:notice] = 'Tentamen is bijgewerkt.'
     end
-    redirect_to edit_exam_path @exam
+    redirect_to exams_path
   end
 
   def destroy

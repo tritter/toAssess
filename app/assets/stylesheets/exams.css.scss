@@ -1,4 +1,4 @@
-#new-exam { margin-bottom: 8px; }
+#new-exam, #new-question { margin-bottom: 8px; }
 
 #filters {
   padding: 10px;
@@ -37,9 +37,9 @@
 
 .span11 h2 small { float: right; line-height: 36px; padding-top: 3px; }
 
-#exams-list {
+#exams-list, #questions-list {
   text-align: center;
-  .exam-item {
+  .exam-item, .question-item {
     padding: 10px;
     @include border-radius(6px);
     border: 1px solid rgba(0, 0, 0, .1);

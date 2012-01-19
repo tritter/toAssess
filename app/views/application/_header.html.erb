@@ -3,8 +3,16 @@
     <div class="container">
       <a class="brand" href="/"><span class="arrow-right"></span>HAN <small>toAssess</small></a>
       <ul class="nav">
+        <% if controller_name == 'exams' %>
         <li class="active"><a href="/">Tentamens</a></li>
+        <% else %>
+        <li><a href="/">Tentamens</a></li>
+        <% end %>
+        <% if controller_name == 'questions' %>
+        <li class="active"><a href="/questions">Vragen</a></li>
+        <% else %>
         <li><a href="/questions">Vragen</a></li>
+        <% end %>
       </ul>
       <ul class="nav secondary-nav">
         <li class="dropdown">

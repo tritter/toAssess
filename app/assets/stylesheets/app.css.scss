@@ -71,6 +71,10 @@ body {
   to {opacity: 0.25;}
 }
 
+fieldset {
+  .actions, hr, h3 { margin-left: 20px; }
+}
+
 .block-message {
   margin-left: 20px; display: none;
   li { display: none; }
