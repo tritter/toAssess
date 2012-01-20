@@ -1,4 +1,5 @@
 $ ->
+  # open and close courses filter
   $('#courses-list > ul > li > span').click ->
     $(@).parent().toggleClass('open')
     $(@).parent().children('ul').stop().slideToggle()
@@ -6,21 +7,25 @@ $ ->
     if $(@).attr('checked')
       $(@).closest('ul').parent('li').addClass('open')
       $(@).closest('ul').show()
+  # render changes of number of questions filter
   $('#number_of_questions').change ->
     $(@).prev().text('maximaal ' + $(@).val() + ' vragen')
   $('#number_of_questions').prev().text('maximaal ' + $('#number_of_questions').val() + ' vragen')
+  # render changes of average difficulty filter
   $('#average_difficulty').change ->
     $(@).prev().text('tot en met ' + $(@).val())
   $('#average_difficulty').prev().text('tot en met ' + $('#average_difficulty').val())
+  # render changes of amount of time filter
   $('#amount_of_time').change ->
     $(@).prev().text('maximaal ' + $(@).val() + ' minuten')
   $('#amount_of_time').prev().text('maximaal ' + $('#amount_of_time').val() + ' minuten')
-  #initialize exams
+  # initialize exams on page load
   if $('body').attr('id') is 'exams' and $('body').attr('data-action') is 'index'
     filterExams()
-    #bind filter events
+    # bind filter events
     $('#search').keyup -> filterExams()
     $('#courses-list input, #number_of_questions, #average_difficulty, #amount_of_time').change -> filterExams()
+  # quick n dirty exam validations
   $('#exams .actions input[type=submit]').click (e) ->
     course_valid = true
     title_valid = true
@@ -43,13 +48,17 @@ $ ->
       $('.block-message').delay(5000).slideUp ->
         $('.block-message li').hide()
 
+# serialize filter form and retrieve exams accordingly
 filterExams = () ->
   $('#exams-list').children(':not(.spinner)').remove()
   $('.span11 h2 small').empty()
   $('#exams-list .spinner').show()
-  window.stop() # cancel any current ajax request
+  # cancel any in progress ajax request
+  window.stop()
+  # get exams with filters applied
   $.getJSON('/exams?' + $('#filters form').serialize(), (data) -> buildExamsList(data))
 
+# quick n dirty templating of exams list
 buildExamsList = (data) ->
   template = ''
   if data.length is 0

@@ -1,4 +1,5 @@
 $ ->
+  # quick n dirty validations
   $('#new_question .actions input[type=submit], .edit_question .actions input[type=submit]').click (e) ->
     question_valid = true
     question_valid = false if $('.xlarge').val() is '' or ($('form').attr('id') is 'new_question' and $('.actions input[type=radio]:checked').length is 0)
@@ -9,7 +10,9 @@ $ ->
       $('html, body').animate({ scrollTop: 0 }, 'slow');
       $('.block-message').delay(5000).slideUp ->
         $('.block-message li').hide()
+  # initialize titles
   renderTitles()
+  # quick n dirty question additions and templating in exam form
   $('#add-open-question, #add-true_false-question, #add-multiple_choice-question, #add-multiple_answers-question, #add-statements-question').click ->
     user_id = $('#exam-user-id').val()
     index = parseInt($('#exam-questions > div').last().find('h3 span').text()) || 0
@@ -228,9 +231,10 @@ $ ->
                     </div>'
     $('#exam-questions').append(template)
     if $(@).attr('id') == 'add-open-question'
-      window.runEditors()
-    renderTitles()
+      window.runEditors() # initialize new markdown editor
+    renderTitles() # render new titles
     false
+  # quick n dirty question additions and templating in question form
   $('.type input[type=radio]').click ->
     $('.open-question, .true_false-question, .multiple_choice-question , .multiple_answers-question, .statements-question').remove()
     type = $(@).val()
@@ -442,14 +446,16 @@ $ ->
                     </div>'
     $('fieldset .actions').after(template)
     if type == 'open'
-      window.runEditors()
-    renderTitles()
+      window.runEditors() # initialize new markdown editor
+    renderTitles() # render new titles
+  # initialize questions on page load
   if $('body').attr('id') is 'questions' and $('body').attr('data-action') is 'index'
     filterQuestions()
-    #bind filter events
+    # bind filter events
     $('#search').keyup -> filterQuestions()
     $('#types-list input, #average_difficulty, #amount_of_time').change -> filterQuestions()
 
+# render question titles
 renderTitles = ->
   $('.open-question .xlarge').keyup ->
     $(@).closest('.open-question').find('h3 span.question-title').text($(@).val() + ' ')
@@ -462,13 +468,17 @@ renderTitles = ->
   $('.statements-question .xlarge').last().keyup ->
     $(@).closest('.statements-question').find('h3 span.question-title').text($(@).val() + ' ')
 
+# serialize filter form and retrieve questions accordingly
 filterQuestions = () ->
   $('#questions-list').children(':not(.spinner)').remove()
   $('.span11 h2 small').empty()
   $('#questions-list .spinner').show()
-  window.stop() # cancel any current ajax request
+  # cancel any current ajax request
+  window.stop()
+  # get questions with filters applied
   $.getJSON('/questions?' + $('#filters form').serialize(), (data) -> buildQuestionsList(data))
 
+# quick n dirty templating of questions list
 buildQuestionsList = (data) ->
   template = ''
   if data.length is 0

@@ -1,10 +1,12 @@
 $ ->
+  # hide flash messages
   $('div.success, div.warning, div.error').delay(3000).fadeOut('fast')
   if ($('body').attr('id') is 'exams' or $('body').attr('id') is 'questions') and ($('body').attr('data-action') is 'new' or $('body').attr('data-action') is 'edit')
-    setInterval(colorizeCode, 2000)
-    setInterval(togglePreview, 5)
-    runEditors()
+    setInterval(colorizeCode, 2000) # continuously look for code tags to render
+    setInterval(togglePreview, 5) # show or hide preview tags if filled or empty
+    runEditors() # initialize markdown editors
 
+# render markdown editors
 window.runEditors = ->
   help = ->
     window.open('http://daringfireball.net/projects/markdown/syntax', '_blank')
@@ -17,6 +19,7 @@ window.runEditors = ->
     editors.push(new Markdown.Editor(converters[(converters.length - 1)], '-' + number, { handler: help }))
     editors[(editors.length - 1)].run()
 
+# render code in nice colors
 colorizeCode = ->
   $('code').addClass('prettyprint')
   prettyPrint()

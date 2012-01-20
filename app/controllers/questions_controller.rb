@@ -5,7 +5,7 @@ class QuestionsController < ApplicationController
   def index
     if params[:filters]
       @questions = Question.scoped
-      @questions = @questions.where(question: /#{params[:search]}/) unless params[:search].blank?
+      @questions = @questions.where(question: /#{params[:search]}/i) unless params[:search].blank?
       @questions = @questions.any_in(type: params[:types]) unless params[:types].nil?
       @questions = @questions.where(:difficulty.lte => params[:difficulty]) unless params[:difficulty].blank?
       @questions = @questions.where(:time.lte => params[:time]) unless params[:time].blank?

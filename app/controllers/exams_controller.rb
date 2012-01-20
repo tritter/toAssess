@@ -5,7 +5,7 @@ class ExamsController < ApplicationController
   def index
     if params[:filters]
       @exams = Exam.scoped
-      @exams = @exams.any_of({ title: /#{params[:search]}/ }, { description: /#{params[:search]}/ }) unless params[:search].blank?
+      @exams = @exams.any_of({ title: /#{params[:search]}/i }, { description: /#{params[:search]}/i }) unless params[:search].blank?
       @exams = @exams.any_in(course_id: params[:course_ids]) unless params[:course_ids].nil?
       @exams = @exams.where(:number_of_questions.lte => params[:number_of_questions]) unless params[:number_of_questions].blank?
       @exams = @exams.where(:average_difficulty.lte => params[:average_difficulty]) unless params[:average_difficulty].blank?

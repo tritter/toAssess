@@ -6,6 +6,7 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require jquery/jquery-ui-1.8.17.custom.min
 //= require bootstrap-alerts
 //= require bootstrap-buttons
 //= require bootstrap-dropdown
