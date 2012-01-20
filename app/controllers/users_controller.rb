@@ -25,12 +25,16 @@ class UsersController < ApplicationController
       params[:user].delete(:password)
       params[:user].delete(:password_confirmation)
     end
-    unless (current_user.name == 'Administrator' and params[:user][:name] != 'Administrator') or (current_user.name != 'Administrator' and params[:user][:name] == 'Administrator')
+    unless (current_user.admin? and @user.name == 'Administrator' and params[:user][:name] != 'Administrator') or (!current_user.admin? and params[:user][:name] == 'Administrator')
       if @user.update_attributes params[:user]
         flash[:notice] = 'Profiel is bijgewerkt.'
       end
     end
-    redirect_to edit_user_path @user
+    if current_user.admin?
+      redirect_to users_path
+    else
+      redirect_to edit_user_path @user
+    end
   end
 
   def destroy
