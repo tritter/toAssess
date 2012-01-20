@@ -3,7 +3,6 @@ class Course
   include Mongoid::Timestamps
   has_and_belongs_to_many :users
   has_many :exams
-  has_many :tags
   belongs_to :category
 
   field :name, type: String
