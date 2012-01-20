@@ -1,8 +1,8 @@
 $ ->
-  $('#filters #courses-list > ul > li > span').click ->
+  $('#courses-list > ul > li > span').click ->
     $(@).parent().toggleClass('open')
     $(@).parent().children('ul').stop().slideToggle()
-  $('#filters #courses-list input').each ->
+  $('#courses-list input').each ->
     if $(@).attr('checked')
       $(@).closest('ul').parent('li').addClass('open')
       $(@).closest('ul').show()
@@ -38,8 +38,8 @@ $ ->
       $('.block-message li').first().next().show() if not title_valid
       $('.block-message li').first().next().next().show() if not description_valid
       $('.block-message li').last().show() if not questions_valid
-      $('.block-message').slideDown();
-      $('html, body').animate({ scrollTop: 0 }, 'slow');
+      $('.block-message').slideDown()
+      $('html, body').animate({ scrollTop: 0 }, 'slow')
       $('.block-message').delay(5000).slideUp ->
         $('.block-message li').hide()
 
@@ -61,6 +61,8 @@ buildExamsList = (data) ->
       date = date[2] + ' ' + months[(date[1] - 1)] + ' ' + date[0]
       template += '<div class="exam-item">
                     <h3 class="pull-left"><a href="/exams/' + item._id + '/edit">' + item.title + '</a> <small>' + item.category_name + ' - ' + item.course_name + '</small></h3>
+                    <a href="/exams/' + item._id + '.pdf?answers=1" title="PDF-nakijkversie met antwoorden" class="pull-right"><img width="32" height="32" src="/assets/Antwoorden.png" /></a>
+                    <a class="pull-right" href="/exams/' + item._id + '.pdf" title="PDF-versie" class="pull-right" style="margin-right: 10px;"><img width="32" height="32" src="/assets/PDFknoprood.png" /></a>
                     <table class="condensed-table">
                       <tr><td>Aantal vragen:</td><td>' + item.number_of_questions + ' vragen</td></tr>
                       <tr><td>Tijdsduur:</td><td>' + item.amount_of_time + ' minuten</td><td>Moeilijkheid:</td><td>' + item.average_difficulty + ' uit 10</td></tr>

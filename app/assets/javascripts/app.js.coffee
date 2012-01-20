@@ -1,13 +1,13 @@
 $ ->
   $('div.success, div.warning, div.error').delay(3000).fadeOut('fast')
   if ($('body').attr('id') is 'exams' or $('body').attr('id') is 'questions') and ($('body').attr('data-action') is 'new' or $('body').attr('data-action') is 'edit')
-    setInterval(colorizeCode, 200)
+    setInterval(colorizeCode, 2000)
     setInterval(togglePreview, 5)
     runEditors()
 
 window.runEditors = ->
   help = ->
-    alert('help')
+    window.open('http://daringfireball.net/projects/markdown/syntax', '_blank')
   converters = []
   editors = []
   $('.wmd-button-row').remove();

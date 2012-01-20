@@ -1,0 +1,10 @@
+/* line 2, ../../app/assets/stylesheets/pdf.css.scss */
+#pdf #front-page {
+  width: 500px;
+  text-align: center;
+}
+/* line 5, ../../app/assets/stylesheets/pdf.css.scss */
+#pdf #front-page div {
+  margin-left: auto;
+  margin-right: auto;
+}

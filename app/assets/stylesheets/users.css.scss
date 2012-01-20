@@ -1,52 +1,44 @@
 #sessions {
   .alert-message { width: 458px; position: fixed; margin: 0 auto; left: 50%; top: 1%; margin-left: -245px; }
-  #centerbox {
-    height: 100%;
-    width: 100%;
-    @include display-box();
-    @include box-orient(horizontal);
-    @include box-pack(center);
-    @include box-align(center);
-    #sign_in {
-      width: 354px;
-      border: 3px solid rgba(0, 0, 0, 0.8);
-      @include border-radius(6px);
-      @include single-box-shadow(#999, 0, 0, 10px, false, false);
-      background-color: #fff;
-      h3.title {
-        background-color: $whiteSmoke;
-        padding: 9px 15px;
-        line-height: 1;
-        @include border-top-radius(6px);
-        border-bottom: 1px solid #eee;
-        small { font-size: $basefont - 2; font-weight: bold; }
-      }
-      .content {
-        padding-top: 31px;
-        text-align: center;
-        form {
+  #sign_in {
+    width: 354px;
+    border: 3px solid rgba(0, 0, 0, 0.8);
+    @include border-radius(6px);
+    @include single-box-shadow(#999, 0, 0, 10px, false, false);
+    background-color: #fff;
+    h3.title {
+      background-color: $whiteSmoke;
+      padding: 9px 15px;
+      line-height: 1;
+      @include border-top-radius(6px);
+      border-bottom: 1px solid #eee;
+      small { font-size: $basefont - 2; font-weight: bold; }
+    }
+    .content {
+      padding-top: 31px;
+      text-align: center;
+      form {
+        margin-bottom: 0;
+        .clearfix {
+          width: 220px;
+          margin-left: auto;
+          margin-right: auto;
+          text-align: left;
+          label { float: none; font-weight: bold; }
+          .input { margin-left: 0; }
+          span { font-weight: normal; font-size: 13px; line-height: 20px; }
+        }
+        .actions {
+          text-align: center;
           margin-bottom: 0;
-          .clearfix {
-            width: 220px;
-            margin-left: auto;
-            margin-right: auto;
-            text-align: left;
-            label { float: none; font-weight: bold; }
-            .input { margin-left: 0; }
-            span { font-weight: normal; font-size: 13px; line-height: 20px; }
-          }
-          .actions {
-            text-align: center;
-            margin-bottom: 0;
-            padding-left: 0;
-            padding-right: 0;
-          }
+          padding-left: 0;
+          padding-right: 0;
         }
       }
-      footer {
-        margin-top: 0;
-        padding-top: 9px;
-      }
+    }
+    footer {
+      margin-top: 0;
+      padding-top: 9px;
     }
   }
 }

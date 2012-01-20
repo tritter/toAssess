@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>HAN toAssess - <%= yield(:title).blank? ? 'De plek voor tentamens.' : yield(:title) %></title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="<%= root_url %>stylesheets/pdf.css" media="screen" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="<%= root_url %>javascripts/prettify/prettify.js"></script>
+    <script type="text/javascript">
+      function render() {
+        var codes = document.getElementsByTagName('code');
+        for(var i = 0; i < codes.length; i++) {
+          codes[i].setAttribute('class', 'prettyprint');
+        }
+        prettyPrint();
+      }
+    </script>
+  </head>
+  <body id="<%= params[:format] %>" onload="render()">
+    <%= yield %>
+  </body>
+</html>

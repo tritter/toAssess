@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+  authorize_resource
+
   def index
     @users = User.excludes(:id => current_user.id).order_by [:name, :asc]
     @user = User.new
@@ -23,16 +25,20 @@ class UsersController < ApplicationController
       params[:user].delete(:password)
       params[:user].delete(:password_confirmation)
     end
-    if @user.update_attributes params[:user]
-      flash[:notice] = 'Profiel is bijgewerkt.'
+    unless (current_user.name == 'Administrator' and params[:user][:name] != 'Administrator') or (current_user.name != 'Administrator' and params[:user][:name] == 'Administrator')
+      if @user.update_attributes params[:user]
+        flash[:notice] = 'Profiel is bijgewerkt.'
+      end
     end
-    redirect_to users_path
+    redirect_to edit_user_path @user
   end
 
   def destroy
     @user = User.find params[:id]
-    if @user.destroy
-      flash[:notice] = 'Docent is verwijderd.'
+    unless @user.name == 'Administrator'
+      if @user.destroy
+        flash[:notice] = 'Docent is verwijderd.'
+      end
     end
     redirect_to users_path
   end

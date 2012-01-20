@@ -1,3 +1,6 @@
+<%= title 'Docenten' %>
+<%= description 'Voeg docenten toe of werk docenten bij' %>
+
 <%= form_for @user, :autocomplete => 'off' do |f| %>
   <fieldset>
     <legend>Voer een docent in</legend>
@@ -46,7 +49,7 @@
         <td><%= f.password_field :password, :autocomplete => 'off', :class => 'span4' %></td>
         <td><%= f.password_field :password_confirmation, :autocomplete => 'off', :class => 'span4' %></td>
         <td>
-          <div id="select-courses">
+          <div id="courses-list">
           <ul>
             <% for category in @categories %>
             <li>

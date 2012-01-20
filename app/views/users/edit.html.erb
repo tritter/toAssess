@@ -1,14 +1,18 @@
-<div class="pull-right" style="margin-right: 400px;">
+<%= title 'Profiel' %>
+<%= description 'Werk uw gegevens bij' %>
+
+<% unless current_user.admin? %>
+<div style="position: absolute; left: 600px; padding-top: 34px;">
   <h5>Uw courses</h5>
   <ul>
   <% for category in @categories %>
     <% if category.courses.any? { |c| current_user.courses.include?(c) } %>
-    <li>
+    <li style="list-style: square;">
       <span><%= category.name %></span>
       <ul>
         <% for course in category.courses %>
           <% if current_user.courses.include? course %>
-          <li><span><%= course.name %></span></li>
+          <li><span style="color: #404040;"><%= course.name %></span></li>
           <% end %>
         <% end %>
       </ul>
@@ -17,6 +21,7 @@
   <% end %>
   </ul>
 </div>
+<% end %>
 <%= form_for current_user, :autocomplete => 'off' do |f| %>
   <fieldset>
     <legend>Uw gegevens</legend>

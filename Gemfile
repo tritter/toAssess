@@ -35,6 +35,8 @@ gem "bson_ext", "~> 1.5"
 gem "devise"
 gem "cancan"
 gem "compass"
-gem 'compass_twitter_bootstrap'
+gem "compass_twitter_bootstrap"
+gem "wicked_pdf"
+gem "redcarpet"
 gem "thin"
 

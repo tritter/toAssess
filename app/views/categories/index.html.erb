@@ -1,3 +1,6 @@
+<%= title 'Courses' %>
+<%= description 'Voeg courses toe of werk courses bij' %>
+
 <%= form_for @category do |f| %>
   <fieldset>
     <legend>Voer een propedeuse, semester of minor en bijbehorende courses in</legend>
@@ -37,15 +40,15 @@
             <%= f.fields_for :courses do |c| %>
             <% if c.object_name.gsub(/[^0-9]+/,'').to_i < category.courses.length - 1 %>
               <%= c.text_field :name, :class => 'span3' %>
-              <%= c.check_box :_destroy, :as => :boolean %> <span>Verwijderen</span><br />
+              <%= c.check_box :_destroy, :as => :boolean %> <span style="position: relative; top: -2px;">Verwijderen</span><br /><br />
             <% else %>
               <%= c.text_field :name, :class => 'span3 last-course' %>
-              <%= c.check_box :_destroy, :as => :boolean %> <span>Verwijderen</span><br />
+              <%= c.check_box :_destroy, :as => :boolean %> <span style="position: relative; top: -2px;">Verwijderen</span><br />
             <% end %>
           <% end %>
         </td>
       </tr>
-      <tr class="table-submit">
+      <tr class="table-submit" style="background-color: #f5f5f5;">
         <td colspan="2">
           <%= f.submit 'Bijwerken', :class => 'btn primary' %>&nbsp;
           <%= link_to 'Verwijderen', categories_path(category), :method => :delete, :confirm => 'Weet u het zeker?', :class => 'btn danger' %>

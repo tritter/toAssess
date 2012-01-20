@@ -1,0 +1,77 @@
+<div id="front-page" style="text-align: center;">
+  <div style="margin: auto;">
+    <h5><%= @exam.category_name %> - <%= @exam.course_name %></h5>
+    <h1><%= @exam.title %></h1>
+    <% if params[:answers] %>
+    <h6 style="color: red;">Nakijkversie; bevat ook de antwoorden!</h6>
+    <% end %>
+    <div style="width: 470px; margin: auto; text-align: left; border: 1px solid #ddd; padding: 10px;">
+      <p><%= markdown @exam.description %></p>
+    </div>
+    <br />
+    <table class="bordered-table zebra-striped">
+      <tr><td><strong>Aantal vragen:</strong></td><td><%= @exam.number_of_questions %> vragen</td><td><strong>Geschatte tijdsduur:</strong></td><td><%= @exam.amount_of_time %> minuten</td></tr>
+      <tr><td><strong>Gemaakt op:</strong></td><td><%= @exam.created_at.to_s.slice 0, 10 %></td><td><strong>Laatst bijgewerkt op:</strong></td><td><%= @exam.updated_at.to_s.slice 0, 10 %></td></tr>
+      <tr><td><strong>Gemaakt door:</strong></td><td colspan="3"><%= @exam.author %></td></tr>
+    </table>
+  </div>
+</div>
+<div id="question-pages" style="page-break-before: always;">
+  <h2>Vragen</h2>
+  <% @exam.questions.each_with_index do |q, i| %>
+  <% if q.type == 'open' %>
+  <div class="open-question">
+    <h5><span><%= i + 1 %>. </span><span class="question-title"><%= q.question + ' ' %></span></h5>
+    <% if params[:answers] %>
+    <span>Antwoord:</span>
+    <div style="border: 1px solid #ddd; padding: 10px;">
+      <p><%= markdown q.answer %></p>
+    </div>
+    <% end %>
+    <hr />
+  </div>
+  <% elsif q.type == 'multiple_choice' %>
+  <div class="multiple_choice-question">
+    <h5><span><%= i + 1 %>. </span><span class="question-title"><%= q.question + ' ' %></span></h5>
+    <ol class="alpha">
+      <% q.texts.each_with_index do |text, i| %>
+        <li<%= raw ' style="font-weight: bold;"' if params[:answers] and q.answer.to_i == i %>><%= text %></li>
+      <% end %>
+    </ol>
+    <hr />
+  </div>
+  <% elsif q.type == 'true_false' %>
+  <div class="true_false-question">
+    <h5><span><%= i + 1 %>. </span><span class="question-title"><%= q.question + ' ' %></span></h5>
+    <ol class="alpha">
+      <li<%= raw ' style="font-weight: bold;"' if params[:answers] and q.answer.to_i == 1 %>>Dit is waar.</li>
+      <li<%= raw ' style="font-weight: bold;"' if params[:answers] and q.answer.to_i == 0 %>>Dit is niet waar.</li>
+    </ol>
+    <hr />
+  </div>
+  <% elsif q.type == 'multiple_answers' %>
+  <div class="multiple_answers-question">
+    <h5><span><%= i + 1 %>. </span><span class="question-title"><%= q.question + ' ' %></span></h5>
+    <ol class="alpha">
+      <% q.texts.each_with_index do |text, i| %>
+      <li<%= raw ' style="font-weight: bold;"' if params[:answers] and q.answers.include? i.to_s %>><%= text %></li>
+      <% end %>
+    </ol>
+    <hr />
+  </div>
+  <% elsif q.type == 'statements' %>
+  <div class="statements-question">
+    <h5><span><%= i + 1 %>. </span><span class="question-title"><%= q.question + ' ' %></span></h5>
+    <p><strong>Stelling I:&nbsp;</strong> <%= q.statements[0] %><p>
+    <p><strong>Stelling II:</strong> <%= q.statements[1] %><p>
+    <ol class="alpha">
+      <li<%= raw ' style="font-weight: bold;"' if params[:answers] and q.answer.to_i == 0 %>>Stelling I is waar.</li>
+      <li<%= raw ' style="font-weight: bold;"' if params[:answers] and q.answer.to_i == 1 %>>Stelling II is waar.</li>
+      <li<%= raw ' style="font-weight: bold;"' if params[:answers] and q.answer.to_i == 2 %>>Beide stellingen zijn waar.</li>
+      <li<%= raw ' style="font-weight: bold;"' if params[:answers] and q.answer.to_i == 3 %>>Beide stellingen zijn niet waar.</li>
+    </ol>
+    <hr />
+  </div>
+  <% end %>
+  <% end %>
+</div>

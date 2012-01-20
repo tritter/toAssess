@@ -1,5 +1,6 @@
 class ExamsController < ApplicationController
-  respond_to :html, :json
+  authorize_resource
+  respond_to :html, :json, :pdf
   
   def index
     if params[:filters]
@@ -19,6 +20,17 @@ class ExamsController < ApplicationController
   end
 
   def show
+    @exam = Exam.find params[:id]
+    respond_to do |format|
+      format.html
+      format.pdf do
+        render :pdf                            => "#{@exam.category_name}-#{@exam.course_name}_#{@exam.title}_#{@exam.updated_at.to_s.slice 0, 10}_#{@exam.author}",
+               :template                       => 'exams/show.pdf.erb',
+               :layout                         => 'pdf.html',                   # use 'pdf.html' for a pdf.html.erb file
+               :wkhtmltopdf                    => '/usr/bin/wkhtmltopdf',       # path to binary
+               :show_as_html                   => params[:debug].present?      # allow debuging based on url param
+      end
+    end
   end
 
   def new

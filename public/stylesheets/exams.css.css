@@ -12,8 +12,8 @@ Syntax error: Undefined mixin 'border-radius'.
 7:   margin-bottom: 10px;
 8:   h5 small { font-size: $basefont - 2; font-weight: bold; }
 9:   .input { margin-left: 0; }
-10:   p, input:checked+span { font-weight: bold; }
-11:   #courses-list {
+10:   p { font-weight: bold; }
+11: }
 
 Backtrace:
 /home/ryan/newRails/toAssess/app/assets/stylesheets/exams.css.scss:6:in `border-radius'
@@ -94,4 +94,4 @@ Backtrace:
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Syntax error: Undefined mixin 'border-radius'.\A         on line 6 of /home/ryan/newRails/toAssess/app/assets/stylesheets/exams.css.scss, in `border-radius'\A         from line 6 of /home/ryan/newRails/toAssess/app/assets/stylesheets/exams.css.scss\A \A 1: #new-exam, #new-question { margin-bottom: 8px; }\A 2: \A 3: #filters {\A 4:   padding: 10px;\A 5:   border: 1px solid rgba(0, 0, 0, .1);\A 6:   @include border-radius(6px);\A 7:   margin-bottom: 10px;\A 8:   h5 small { font-size: $basefont - 2; font-weight: bold; }\A 9:   .input { margin-left: 0; }\A 10:   p, input:checked+span { font-weight: bold; }\A 11:   #courses-list {"; }
+  content: "Syntax error: Undefined mixin 'border-radius'.\A         on line 6 of /home/ryan/newRails/toAssess/app/assets/stylesheets/exams.css.scss, in `border-radius'\A         from line 6 of /home/ryan/newRails/toAssess/app/assets/stylesheets/exams.css.scss\A \A 1: #new-exam, #new-question { margin-bottom: 8px; }\A 2: \A 3: #filters {\A 4:   padding: 10px;\A 5:   border: 1px solid rgba(0, 0, 0, .1);\A 6:   @include border-radius(6px);\A 7:   margin-bottom: 10px;\A 8:   h5 small { font-size: $basefont - 2; font-weight: bold; }\A 9:   .input { margin-left: 0; }\A 10:   p { font-weight: bold; }\A 11: }"; }

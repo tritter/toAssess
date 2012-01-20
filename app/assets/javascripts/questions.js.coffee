@@ -1,4 +1,14 @@
 $ ->
+  $('#new_question .actions input[type=submit], .edit_question .actions input[type=submit]').click (e) ->
+    question_valid = true
+    question_valid = false if $('.xlarge').val() is '' or ($('form').attr('id') is 'new_question' and $('.actions input[type=radio]:checked').length is 0)
+    if not question_valid
+      e.preventDefault()
+      $('.block-message li').first().show()
+      $('.block-message').slideDown()
+      $('html, body').animate({ scrollTop: 0 }, 'slow');
+      $('.block-message').delay(5000).slideUp ->
+        $('.block-message li').hide()
   renderTitles()
   $('#add-open-question, #add-true_false-question, #add-multiple_choice-question, #add-multiple_answers-question, #add-statements-question').click ->
     user_id = $('#exam-user-id').val()

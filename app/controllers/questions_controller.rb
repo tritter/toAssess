@@ -1,4 +1,5 @@
 class QuestionsController < ApplicationController
+  authorize_resource
   respond_to :html, :json
 
   def index

@@ -15,10 +15,10 @@
         <% end %>
       </ul>
       <ul class="nav secondary-nav">
-        <li class="dropdown">
+        <li class="dropdown" style="cursor: pointer;">
           <a class="dropdown-toggle"><%= current_user.name if user_signed_in? %></a>
           <ul class="dropdown-menu">
-            <% if current_user.admin? %>
+            <% if can?(:manage, Category) and can?(:manage, User) %>
             <li><%= link_to 'Beheer courses', categories_path %></li>
             <li><%= link_to 'Beheer docenten', users_path %></li>
             <% end %>

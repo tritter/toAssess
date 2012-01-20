@@ -71,14 +71,23 @@ body {
   to {opacity: 0.25;}
 }
 
+#centerbox {
+  height: 100%;
+  width: 100%;
+  @include display-box();
+  @include box-orient(horizontal);
+  @include box-pack(center);
+  @include box-align(center);
+}
+
 fieldset {
   .actions, hr, h3 { margin-left: 20px; }
 }
-
 .block-message {
   margin-left: 20px; display: none;
   li { display: none; }
 }
+input[type=checkbox]:checked+span, input[type=radio]:checked+span { font-weight: bold; }
 textarea { width: 390px; height: 200px; }
 .preview { width: 382px; padding: 4px; border: 1px solid #ccc; @include border-radius(3px); }
 
@@ -88,6 +97,5 @@ footer {
 
 @import "users";
 @import "exams";
-@import "categories";
 @import "markdown/markdown";
 @import "prettify/prettify";

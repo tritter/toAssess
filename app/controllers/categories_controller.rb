@@ -1,4 +1,6 @@
 class CategoriesController < ApplicationController
+  authorize_resource
+
   def index
     @categories = Category.order_by [:name, :asc]
     @category = Category.new
